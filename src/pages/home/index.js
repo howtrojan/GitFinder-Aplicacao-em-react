@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import {Header} from '../../components/header/';
+import {Button} from '../../components/button/';
 import background from '../../assets/background.png';
 import '../home/styles.css';
 import '../../components/ItemList';
@@ -27,6 +28,13 @@ function App() {
     }
   }
 
+  const handleRemoveRepo = async (repoId) => {
+    // Filtra os repositórios, removendo aquele com o ID correspondente
+    const updatedRepos =  await repos.filter(repo => repo.id !== repoId);
+    setRepos(updatedRepos);
+  };
+  
+
 
 
   return (
@@ -51,14 +59,17 @@ function App() {
           <hr></hr>
           </>
           ) : null}  
-          {repos?.length ? (<>            
+          {repos?.length ? (           
             <div>
             <h4 className='repositorio'>Repositórios</h4>
             {repos.map(repo => (
-              <ItemList title={repo.name} description={repo.description}></ItemList> 
-            ))} 
-            </div> 
-          </>
+              <div key={repo.id}>                
+                <ItemList title={repo.name} description={repo.description}></ItemList>
+                <Button onClick={() => handleRemoveRepo(repo.id)}></Button> 
+                <hr></hr>
+              </div>
+            ))}             
+            </div>   
           ) : null}      
     </div>                
     </div>  
